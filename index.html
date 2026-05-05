@@ -3,34 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>义乌市恒通织带口罩绳有限公司</title>
+    <title>平阳县恒通织带口罩绳有限公司</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="top-nav">
-        <a href="index.html">首页</a>
-        <a href="about.html">关于我们</a>
-        <a href="products.html">产品中心</a>
-        <a href="news.html">新闻资讯</a>
-        <a href="contact.html">联系我们</a>
-        <a href="admin.html">后台管理</a>
+        <div class="nav-container">
+            <a href="index.html">首页</a>
+            <a href="about.html">关于我们</a>
+            <a href="products.html">产品中心</a>
+            <a href="news.html">新闻资讯</a>
+            <a href="contact.html">联系我们</a>
+        </div>
     </div>
 
     <div class="banner">
-        专业口罩绳 · 高弹耳带 · 工厂直供
+        <div class="banner-content">
+            <h1>平阳县恒通织带口罩绳有限公司</h1>
+            <p>专业口罩绳 · 高弹耳带 · 工厂直供</p>
+            <a href="products.html" class="banner-btn">查看产品</a>
+            <a href="contact.html" class="banner-btn banner-btn-outline">立即咨询</a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="container">
+            <h2>核心优势</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏭</div>
+                    <h3>源头工厂</h3>
+                    <p>自有工厂直供，省去中间商</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>品质保障</h3>
+                    <p>环保材质，弹力舒适不勒耳</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>快速发货</h3>
+                    <p>常规规格大量现货，24小时发货</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>定制服务</h3>
+                    <p>支持来样定制、配色定制、尺寸定制</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="container">
         <h2>企业简介</h2>
         <div class="text-box">
-            <p>义乌市恒通织带口罩绳有限公司，专业生产销售各类口罩绳、一次性圆耳带、KN95扁耳带、儿童专用口罩绳、彩色定制织带等产品。</p>
+            <p>平阳县恒通织带口罩绳有限公司，专业生产销售各类口罩绳、一次性圆耳带、KN95扁耳带、儿童专用口罩绳、彩色定制织带等产品。</p>
             <p>采用锦纶+氨纶高弹材质，柔软不勒耳，拉力强、回弹好，支持规格定制、颜色定制，现货充足，支持批发外贸订单。</p>
             <p>工厂源头直供，性价比高，可提供样品检测，欢迎各界客商洽谈合作。</p>
         </div>
     </div>
 
-    <div class="footer">
-        ©2026 义乌市恒通织带口罩绳有限公司 版权所有
+    <div class="products-preview">
+        <div class="container">
+            <h2>热门产品</h2>
+            <div class="pro-grid" id="proPreview"></div>
+            <div class="text-center">
+                <a href="products.html" class="more-btn">查看全部产品</a>
+            </div>
+        </div>
     </div>
+
+    <div class="contact-banner">
+        <div class="container">
+            <div class="contact-info">
+                <h3>立即联系我们</h3>
+                <p>专业团队为您服务，欢迎来电咨询</p>
+            </div>
+            <a href="contact.html" class="contact-btn">联系我们</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>平阳县恒通织带口罩绳有限公司</h4>
+                <p>专业生产销售各类口罩绳、耳带产品</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">首页</a>
+                <a href="about.html">关于我们</a>
+                <a href="products.html">产品中心</a>
+                <a href="news.html">新闻资讯</a>
+                <a href="contact.html">联系我们</a>
+            </div>
+        </div>
+        <p class="footer-copyright">©2026 平阳县恒通织带口罩绳有限公司 版权所有</p>
+    </div>
+
+    <script>
+        const products = JSON.parse(localStorage.getItem('products') || '[]');
+        const previewWrap = document.getElementById('proPreview');
+        const displayProducts = products.slice(0, 4);
+        
+        if (displayProducts.length === 0) {
+            previewWrap.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; padding: 40px;">暂无产品，敬请期待</p>';
+        } else {
+            displayProducts.forEach(p => {
+                previewWrap.innerHTML += `
+                <div class="pro-card">
+                    <img src="${p.img || 'https://via.placeholder.com/280x200?text=产品图片'}" alt="${p.name}">
+                    <div class="pro-info">
+                        <h4>${p.name}</h4>
+                        <p>${p.cate}</p>
+                        <p>${p.desc}</p>
+                    </div>
+                </div>`;
+            });
+        }
+    </script>
 </body>
 </html>

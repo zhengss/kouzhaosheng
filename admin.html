@@ -4,30 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>后台管理 - 口罩绳官网</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {box-sizing:border-box;margin:0;padding:0;font-family:微软雅黑}
-        body{background:#f4f4f4;padding:20px}
-        .container{max-width:1000px;margin:0 auto;background:#fff;padding:25px;border-radius:8px}
-        h2{color:#333;margin-bottom:20px}
-        .form-group{margin-bottom:15px}
-        label{display:block;margin-bottom:5px;color:#555}
-        input,textarea,select{width:100%;padding:10px;border:1px solid #ddd;border-radius:4px}
-        button{padding:10px 20px;background:#007bff;color:#fff;border:none;border-radius:4px;cursor:pointer}
-        .product-list{margin-top:30px}
-        .pro-item{border:1px solid #eee;padding:15px;margin:10px 0;border-radius:4px}
+        .admin-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        
+        .admin-container h2 {
+            color: #0066cc;
+            margin-bottom: 30px;
+            font-size: 26px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            text-align: left;
+        }
+        
+        .admin-container h2::after {
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            background: #fff;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .btn-delete:hover {
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .product-list {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+        }
+        
+        .pro-item {
+            border: 1px solid #eee;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        
+        .pro-item:hover {
+            border-color: #0066cc;
+            background: #fff;
+        }
+        
+        .pro-item p {
+            margin-bottom: 8px;
+            color: #555;
+        }
+        
+        .pro-item strong {
+            color: #0066cc;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        .file-input {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input:hover {
+            border-color: #0066cc;
+            background: rgba(0, 102, 204, 0.05);
+        }
+        
+        .file-input input {
+            display: none;
+        }
+        
+        .file-input label {
+            color: #0066cc;
+            font-weight: 500;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>产品管理（无数据库 · 本地保存）</h2>
+    <div class="top-nav">
+        <div class="nav-container">
+            <a href="index.html">首页</a>
+            <a href="about.html">关于我们</a>
+            <a href="products.html">产品中心</a>
+            <a href="news.html">新闻资讯</a>
+            <a href="contact.html">联系我们</a>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <h2>产品管理</h2>
+        
         <div class="form-group">
             <label>产品图片</label>
-            <input type="file" id="proImg" accept="image/*">
+            <div class="file-input">
+                <input type="file" id="proImg" accept="image/*">
+                <label for="proImg">📷 点击选择图片</label>
+            </div>
+            <p id="imgName" style="margin-top: 10px; font-size: 13px; color: #666;"></p>
         </div>
+        
         <div class="form-group">
             <label>产品名称</label>
             <input type="text" id="proName" placeholder="如：3mm圆形口罩绳">
         </div>
+        
         <div class="form-group">
             <label>产品分类</label>
             <select id="proCate">
@@ -38,61 +190,105 @@
                 <option>彩色定制</option>
             </select>
         </div>
+        
         <div class="form-group">
             <label>产品描述</label>
-            <textarea id="proDesc" rows="4" placeholder="材质、规格、优势"></textarea>
+            <textarea id="proDesc" rows="4" placeholder="材质、规格、优势等"></textarea>
         </div>
-        <button onclick="saveProduct()">保存产品</button>
+        
+        <button class="btn" onclick="saveProduct()">保存产品</button>
+        
         <div class="product-list" id="proList"></div>
+    </div>
+
+    <div class="footer">
+        ©2026 平阳县恒通织带口罩绳有限公司 版权所有
     </div>
 
     <script>
         function getProducts() {
             return JSON.parse(localStorage.getItem('products') || '[]');
         }
+        
         function saveProducts(list) {
             localStorage.setItem('products', JSON.stringify(list));
         }
 
-        let imgPath = '';
+        let imgBase64 = '';
         document.getElementById('proImg').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) imgPath = `images/${file.name}`;
-            alert('图片已选择，保存后生效');
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imgBase64 = event.target.result;
+                    document.getElementById('imgName').textContent = `已选择: ${file.name}`;
+                };
+                reader.readAsDataURL(file);
+            }
         });
 
         function saveProduct() {
-            const name = document.getElementById('proName').value;
+            const name = document.getElementById('proName').value.trim();
             const cate = document.getElementById('proCate').value;
-            const desc = document.getElementById('proDesc').value;
-            if (!name || !imgPath) {
-                alert('请填写名称并选择图片');
+            const desc = document.getElementById('proDesc').value.trim();
+            
+            if (!name) {
+                alert('请填写产品名称');
                 return;
             }
+            if (!imgBase64) {
+                alert('请选择产品图片');
+                return;
+            }
+            
             const products = getProducts();
             products.push({
-                id: Date.now(), name, cate, desc, img: imgPath
+                id: Date.now(), 
+                name, 
+                cate, 
+                desc, 
+                img: imgBase64
             });
             saveProducts(products);
+            
+            document.getElementById('proName').value = '';
+            document.getElementById('proDesc').value = '';
+            document.getElementById('imgName').textContent = '';
+            imgBase64 = '';
+            document.getElementById('proImg').value = '';
+            
             alert('产品保存成功！前台已更新');
             renderList();
         }
 
         function renderList() {
             const list = getProducts();
-            let html = '<h3>已添加产品</h3>';
+            const container = document.getElementById('proList');
+            
+            if (list.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无产品，请添加</div>';
+                return;
+            }
+            
+            let html = '<h3 style="color:#333; margin-bottom:20px;">已添加产品</h3>';
             list.forEach(p => {
                 html += `
                 <div class="pro-item">
-                    <p><strong>${p.name}</strong> - ${p.cate}</p>
-                    <p>${p.desc}</p>
-                    <button onclick="delProduct(${p.id})">删除</button>
+                    <img src="${p.img}" alt="${p.name}" style="width:100px; height:100px; object-fit:cover; border-radius:8px; float:left; margin-right:15px;">
+                    <div style="overflow:hidden;">
+                        <p><strong>${p.name}</strong> - ${p.cate}</p>
+                        <p>${p.desc || '暂无描述'}</p>
+                        <button class="btn btn-delete" onclick="delProduct(${p.id})">删除</button>
+                    </div>
+                    <div style="clear:both;"></div>
                 </div>`;
             });
-            document.getElementById('proList').innerHTML = html;
+            container.innerHTML = html;
         }
 
         function delProduct(id) {
+            if (!confirm('确定要删除这个产品吗？')) return;
+            
             const products = getProducts().filter(p => p.id !== id);
             saveProducts(products);
             renderList();
