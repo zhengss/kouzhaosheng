@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品中心 - 义乌市恒通织带口罩绳有限公司</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-nav">
+        <a href="index.html">首页</a>
+        <a href="about.html">关于我们</a>
+        <a href="products.html">产品中心</a>
+        <a href="news.html">新闻资讯</a>
+        <a href="contact.html">联系我们</a>
+        <a href="admin.html">后台管理</a>
+    </div>
+
+    <div class="container">
+        <h2>口罩绳产品系列</h2>
+        <div class="pro-grid" id="proWrap"></div>
+    </div>
+
+    <div class="footer">
+        ©2026 义乌市恒通织带口罩绳有限公司 版权所有
+    </div>
+
+    <script>
+        const products = JSON.parse(localStorage.getItem('products') || '[]');
+        const wrap = document.getElementById('proWrap');
+        if (products.length === 0) {
+            wrap.innerHTML = '<p style="text-align:center; grid-column: 1 / -1;">暂无产品，请在后台添加</p>';
+        } else {
+            products.forEach(p => {
+                wrap.innerHTML += `
+                <div class="pro-card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <div class="pro-info">
+                        <h4>${p.name}</h4>
+                        <p>${p.cate}</p>
+                        <p>${p.desc}</p>
+                    </div>
+                </div>`;
+            });
+        }
+    </script>
+</body>
+</html>
