@@ -29,7 +29,7 @@ const productsData = [
     },
     {
         "id": 1777964401719,
-        "name": "3mm圆形口罩绳",
+        "name": "5mm圆形口罩绳",
         "cate": "扁形耳带",
         "desc": "",
         "img": "https://img-reg-ab.imagency.cn/e/fb84dc76b4e41d5186b630c5a35048c1.jpg"
