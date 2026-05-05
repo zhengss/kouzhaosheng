@@ -1,0 +1,8 @@
+uploads/
+*.env
+*.key
+node_modules/
+__pycache__/
+.DS_Store
+.server.py.swp
+*.log

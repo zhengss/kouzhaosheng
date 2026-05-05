@@ -14,7 +14,7 @@
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
         }
-        
+
         .admin-container h2 {
             color: #0066cc;
             margin-bottom: 30px;
@@ -23,15 +23,15 @@
             border-bottom: 2px solid #eee;
             text-align: left;
         }
-        
+
         .admin-container h2::after {
             display: none;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
@@ -39,7 +39,7 @@
             font-weight: 500;
             font-size: 14px;
         }
-        
+
         .form-group input,
         .form-group textarea,
         .form-group select {
@@ -51,7 +51,7 @@
             transition: all 0.3s ease;
             background: #fafafa;
         }
-        
+
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
@@ -60,12 +60,12 @@
             box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
             background: #fff;
         }
-        
+
         .form-group textarea {
             resize: vertical;
             min-height: 100px;
         }
-        
+
         .btn {
             padding: 12px 30px;
             background: linear-gradient(135deg, #0066cc 0%, #0099ff 100%);
@@ -78,26 +78,42 @@
             transition: all 0.3s ease;
             margin-right: 10px;
         }
-        
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
         }
-        
+
         .btn-delete {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
         }
-        
+
         .btn-delete:hover {
             box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         }
-        
+
+        .btn-export {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .btn-export:hover {
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-import {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+
+        .btn-import:hover {
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
         .product-list {
             margin-top: 40px;
             padding-top: 30px;
             border-top: 2px solid #eee;
         }
-        
+
         .pro-item {
             border: 1px solid #eee;
             padding: 20px;
@@ -106,27 +122,27 @@
             background: #fafafa;
             transition: all 0.3s ease;
         }
-        
+
         .pro-item:hover {
             border-color: #0066cc;
             background: #fff;
         }
-        
+
         .pro-item p {
             margin-bottom: 8px;
             color: #555;
         }
-        
+
         .pro-item strong {
             color: #0066cc;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 40px;
             color: #999;
         }
-        
+
         .file-input {
             border: 2px dashed #ddd;
             border-radius: 8px;
@@ -135,20 +151,61 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .file-input:hover {
             border-color: #0066cc;
             background: rgba(0, 102, 204, 0.05);
         }
-        
+
         .file-input input {
             display: none;
         }
-        
+
         .file-input label {
             color: #0066cc;
             font-weight: 500;
             cursor: pointer;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .preview-img {
+            max-width: 200px;
+            max-height: 150px;
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .export-section textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -165,113 +222,122 @@
 
     <div class="admin-container">
         <h2>产品管理</h2>
-        
-        <div class="form-group">
-            <label>产品图片</label>
-            <div class="file-input">
-                <input type="file" id="proImg" accept="image/*">
-                <label for="proImg">📷 点击选择图片</label>
+
+        <div class="tip">
+            <strong>💡 部署说明：</strong>由于 GitHub Pages 只支持静态文件，修改产品后需要点击"导出数据"，然后将生成的代码复制到 <code>data/products.js</code> 文件中，再提交到 GitHub。
+        </div>
+
+        <form id="productForm">
+            <div class="form-group">
+                <label>产品图片 URL</label>
+                <input type="text" id="proImgUrl" placeholder="请输入图片URL地址（建议使用图床或CDN）">
             </div>
-            <p id="imgName" style="margin-top: 10px; font-size: 13px; color: #666;"></p>
+
+            <div class="form-group">
+                <label>产品名称</label>
+                <input type="text" id="proName" placeholder="如：3mm圆形口罩绳" required>
+            </div>
+
+            <div class="form-group">
+                <label>产品分类</label>
+                <select id="proCate">
+                    <option>圆形口罩绳</option>
+                    <option>扁形耳带</option>
+                    <option>KN95专用</option>
+                    <option>儿童口罩绳</option>
+                    <option>彩色定制</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>产品描述</label>
+                <textarea id="proDesc" rows="4" placeholder="材质、规格、优势等"></textarea>
+            </div>
+
+            <button type="submit" class="btn">保存产品</button>
+        </form>
+
+        <div class="product-list" id="proList">
+            <p class="loading">加载中...</p>
         </div>
-        
-        <div class="form-group">
-            <label>产品名称</label>
-            <input type="text" id="proName" placeholder="如：3mm圆形口罩绳">
+
+        <div class="export-section">
+            <h3 style="color:#333; margin-bottom:15px;">📤 数据导出</h3>
+            <p style="font-size:14px; color:#666; margin-bottom:10px;">点击下方按钮导出产品数据，然后复制到 <code>data/products.js</code> 文件中：</p>
+            <button class="btn btn-export" onclick="exportData()">导出数据</button>
+            <button class="btn btn-import" onclick="importData()">导入示例数据</button>
+            <textarea id="exportTextarea" readonly></textarea>
         </div>
-        
-        <div class="form-group">
-            <label>产品分类</label>
-            <select id="proCate">
-                <option>圆形口罩绳</option>
-                <option>扁形耳带</option>
-                <option>KN95专用</option>
-                <option>儿童口罩绳</option>
-                <option>彩色定制</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>产品描述</label>
-            <textarea id="proDesc" rows="4" placeholder="材质、规格、优势等"></textarea>
-        </div>
-        
-        <button class="btn" onclick="saveProduct()">保存产品</button>
-        
-        <div class="product-list" id="proList"></div>
     </div>
 
     <div class="footer">
-        ©2026 平阳县恒通织带口罩绳有限公司 版权所有
+        <div class="footer-content">
+            <div class="footer-info">
+                <h4>平阳县睿祥织带口罩绳有限公司</h4>
+                <p>专业生产销售各类口罩绳、耳带产品</p>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">首页</a>
+                <a href="about.html">关于我们</a>
+                <a href="products.html">产品中心</a>
+                <a href="news.html">新闻资讯</a>
+                <a href="contact.html">联系我们</a>
+            </div>
+        </div>
+        <p class="footer-copyright">©2026 平阳县睿祥织带口罩绳有限公司 版权所有</p>
     </div>
 
     <script>
+        const STORAGE_KEY = 'mask_products';
+
         function getProducts() {
-            return JSON.parse(localStorage.getItem('products') || '[]');
-        }
-        
-        function saveProducts(list) {
-            localStorage.setItem('products', JSON.stringify(list));
+            let products = localStorage.getItem(STORAGE_KEY);
+            if (products) {
+                return JSON.parse(products);
+            }
+            return window.productsData || [];
         }
 
-        let imgBase64 = '';
-        document.getElementById('proImg').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    imgBase64 = event.target.result;
-                    document.getElementById('imgName').textContent = `已选择: ${file.name}`;
-                };
-                reader.readAsDataURL(file);
-            }
+        function saveProducts(products) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+        }
+
+        const form = document.getElementById('productForm');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const imgUrl = document.getElementById('proImgUrl').value || 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=mask%20earloop%20white%20background%20product%20photo&image_size=square';
+
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('proName').value,
+                cate: document.getElementById('proCate').value,
+                desc: document.getElementById('proDesc').value,
+                img: imgUrl
+            };
+
+            const products = getProducts();
+            products.push(newProduct);
+            saveProducts(products);
+
+            alert('产品保存成功！');
+            form.reset();
+            renderProducts();
+            updateExportTextarea();
         });
 
-        function saveProduct() {
-            const name = document.getElementById('proName').value.trim();
-            const cate = document.getElementById('proCate').value;
-            const desc = document.getElementById('proDesc').value.trim();
-            
-            if (!name) {
-                alert('请填写产品名称');
-                return;
-            }
-            if (!imgBase64) {
-                alert('请选择产品图片');
-                return;
-            }
-            
-            const products = getProducts();
-            products.push({
-                id: Date.now(), 
-                name, 
-                cate, 
-                desc, 
-                img: imgBase64
-            });
-            saveProducts(products);
-            
-            document.getElementById('proName').value = '';
-            document.getElementById('proDesc').value = '';
-            document.getElementById('imgName').textContent = '';
-            imgBase64 = '';
-            document.getElementById('proImg').value = '';
-            
-            alert('产品保存成功！前台已更新');
-            renderList();
-        }
-
-        function renderList() {
-            const list = getProducts();
+        function renderProducts() {
             const container = document.getElementById('proList');
-            
-            if (list.length === 0) {
-                container.innerHTML = '<div class="empty-state">暂无产品，请添加</div>';
+            const products = getProducts();
+
+            if (products.length === 0) {
+                container.innerHTML = '<p class="empty-state">暂无产品，请添加</p>';
                 return;
             }
-            
+
             let html = '<h3 style="color:#333; margin-bottom:20px;">已添加产品</h3>';
-            list.forEach(p => {
+            products.forEach(p => {
                 html += `
                 <div class="pro-item">
                     <img src="${p.img}" alt="${p.name}" style="width:100px; height:100px; object-fit:cover; border-radius:8px; float:left; margin-right:15px;">
@@ -288,13 +354,66 @@
 
         function delProduct(id) {
             if (!confirm('确定要删除这个产品吗？')) return;
-            
+
             const products = getProducts().filter(p => p.id !== id);
             saveProducts(products);
-            renderList();
+            renderProducts();
+            updateExportTextarea();
+            alert('删除成功');
         }
 
-        renderList();
+        function exportData() {
+            const products = getProducts();
+            const exportCode = `const productsData = ${JSON.stringify(products, null, 4)};`;
+            document.getElementById('exportTextarea').value = exportCode;
+            alert('数据已导出！请复制文本框中的内容到 data/products.js 文件中');
+        }
+
+        function updateExportTextarea() {
+            const products = getProducts();
+            const exportCode = `const productsData = ${JSON.stringify(products, null, 4)};`;
+            document.getElementById('exportTextarea').value = exportCode;
+        }
+
+        function importData() {
+            const sampleData = [
+                {
+                    "id": 1,
+                    "name": "3mm圆形口罩绳",
+                    "cate": "圆形口罩绳",
+                    "desc": "高品质氨纶材质，柔软舒适，弹性好，不易断裂",
+                    "img": "https://neeko-copilot.bytedance.net/api/text_to_image?prompt=elastic%20round%20mask%20earloop%20string%20white%20background%20product%20photo&image_size=square"
+                },
+                {
+                    "id": 2,
+                    "name": "5mm扁形耳带",
+                    "cate": "扁形耳带",
+                    "desc": "扁形设计，佩戴更舒适，减少耳朵压力",
+                    "img": "https://neeko-copilot.bytedance.net/api/text_to_image?prompt=flat%20mask%20ear%20band%20white%20background%20product%20photo&image_size=square"
+                },
+                {
+                    "id": 3,
+                    "name": "KN95专用耳带",
+                    "cate": "KN95专用",
+                    "desc": "KN95口罩专用，高强度，高弹性",
+                    "img": "https://neeko-copilot.bytedance.net/api/text_to_image?prompt=KN95%20mask%20elastic%20earloop%20white%20background%20product%20photo&image_size=square"
+                },
+                {
+                    "id": 4,
+                    "name": "儿童口罩绳",
+                    "cate": "儿童口罩绳",
+                    "desc": "专为儿童设计，尺寸合适，柔软安全",
+                    "img": "https://neeko-copilot.bytedance.net/api/text_to_image?prompt=children%20mask%20earloop%20colorful%20white%20background%20product%20photo&image_size=square"
+                }
+            ];
+            saveProducts(sampleData);
+            renderProducts();
+            updateExportTextarea();
+            alert('示例数据已导入！');
+        }
+
+        renderProducts();
+        updateExportTextarea();
     </script>
 </body>
 </html>
