@@ -32,6 +32,6 @@ const productsData = [
         "name": "3mm圆形口罩绳",
         "cate": "扁形耳带",
         "desc": "",
-        "img": "https://imgse.com/i/UIN0"
+        "img": "https://img-reg-ab.imagency.cn/e/fb84dc76b4e41d5186b630c5a35048c1.jpg"
     }
 ];
