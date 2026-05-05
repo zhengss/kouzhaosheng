@@ -32,6 +32,7 @@ const productsData = [
         "name": "5mm圆形口罩绳",
         "cate": "扁形耳带",
         "desc": "",
-        "img": "https://img-reg-ab.imagency.cn/e/fb84dc76b4e41d5186b630c5a35048c1.jpg"
+        "img": "data:image/svg+xml,%3Csvg xmlns='https://img-reg-ab.imagency.cn/e/fb84dc76b4e41d5186b630c5a35048c1.jpg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect fill='%23f5f5f5' width='400' height='300'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23e8e8e8' stroke='%23cccccc' stroke-width='2'/%3E%3Ccircle cx='200' cy='150' r='60' fill='none' stroke='%230066cc' stroke-width='8' stroke-linecap='round' stroke-dasharray='10 5'/%3E%3Ctext x='200' y='250' text-anchor='middle' font-family='Arial' font-size='16' fill='%23666'%3E%E5%9B%9B%E5%9C%86%E5%BD%A2%E5%8F%A3%E7%BD%A9%E7%BB%B4%3C/text%3E%3C/svg%3E"
+   
     }
 ];
