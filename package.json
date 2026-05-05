@@ -1,7 +1,7 @@
 {
   "name": "ruixiang-website",
   "version": "1.0.0",
-  "description": "平阳县睿祥织带口罩绳有限公司官网",
+  "description": "平阳县睿祥纺织有限公司官网",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
